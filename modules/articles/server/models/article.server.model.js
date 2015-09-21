@@ -20,15 +20,40 @@ var ArticleSchema = new Schema({
     trim: true,
     required: 'Title cannot be blank'
   },
-  content: {
+  category: {
+    type: String,
+    default: '',
+    trim: true,
+  },
+  description: {
     type: String,
     default: '',
     trim: true
   },
-  user: {
-    type: Schema.ObjectId,
-    ref: 'User'
-  }
+  link: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  isPermalink: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  guid: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  pubDate: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  // user: {
+  //   type: Schema.ObjectId,
+  //   ref: 'User'
+  // }
 });
 
 mongoose.model('Article', ArticleSchema);

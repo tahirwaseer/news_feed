@@ -1,23 +1,38 @@
 <section data-ng-controller="HomeController">
   <div class="jumbotron text-center">
     <div class="row">
-      <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
-        <img alt="MEAN.JS" class="img-responsive text-center" src="modules/core/img/brand/logo.png" />
+      <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12  text-center">
+        <h1>accenture</h1>
+        <!-- <img alt="Accenture" class="img-responsive text-center" src="modules/core/img/brand/logo-accenture.png" /> -->
       </div>
     </div>
-    <br>
     <div class="row">
       <p class="lead">
-        Open-Source Full-Stack Solution For MEAN Applications
+        High performance. Delivered.
       </p>
     </div>
     <div class="row">
       <p>
-        <a class="btn btn-primary btn-lg" href="http://meanjs.org" target="_blank">Learn more</a>
+        <a ng-if="!authentication.user" class="btn btn-primary btn-lg" href="/authentication/signin" >Sign In</a>
       </p>
     </div>
   </div>
-  <div>
+  <div class="text-center">
+    <h2>Insights</h2>
+  </div>
+  <div class="list-group">
+    <a data-ng-repeat="article in articles" href="{{article.link}}" target="_blank" class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span data-ng-bind="article.pubDate | date:'mediumDate'"></span>
+        <!-- by
+        <span data-ng-bind="article.user.displayName"></span> -->
+      </small>
+      <h4 class="list-group-item-heading" data-ng-bind="article.title"></h4>
+      <p class="list-group-item-text" data-ng-bind="article.description"></p>
+    </a>
+  </div>
+  <!-- <div>
     <h2>Congrats! You've configured and run the sample application.</h2>
     <p>MEAN.JS is a web application boilerplate, which means you should start changing everything :-)</p>
     <p>This sample application tracks users and articles.</p>
@@ -66,8 +81,7 @@
       <ul>
         <li><a target="_blank" href="http://meanjs.org/docs.html">MEAN.JS Documentation</a>
         </li>
-        <!-- <li><a target="_blank" href="http://meanjs.org/generator.html">Yeoman Generator</a>
-				</li> -->
+        
         <li><a target="_blank" href="http://meanjs.org/modules.html">Modules</a>
         </li>
         <li><a target="_blank" href="http://meanjs.org/changelog.html">Changelog</a>
@@ -78,7 +92,31 @@
         </li>
       </ul>
     </p>
-  </div>
+  </div> -->
   <br>Enjoy &amp; Keep Us Updated,
-  <br>The MEAN.JS Team.
+  <br>The Accenture Team.
 </section>
+<script type="text/javascript">
+'use strict';
+
+// Articles controller
+angular.module('core').controller('HomeController', ['$scope', '$stateParams', '$location', 'Authentication', 'Articles',
+  function ($scope, $stateParams, $location, Authentication, Articles) {
+    $scope.authentication = Authentication;
+
+    // Find a list of Articles
+    $scope.find = function () {
+      $scope.articles = Articles.query();
+    };
+
+    // Find existing Article
+    $scope.findOne = function () {
+      $scope.article = Articles.get({
+        articleId: $stateParams.articleId
+      });
+    };
+
+  }
+]);
+
+</script>

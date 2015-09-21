@@ -28,6 +28,10 @@ angular.module('articles').config(['$stateProvider',
       .state('articles.edit', {
         url: '/:articleId/edit',
         templateUrl: 'modules/articles/views/edit-article.client.view.html'
+      })
+      .state('articles.import', {
+        url: '/:articleId/import',
+        templateUrl: 'modules/articles/views/import-article.client.view.html'
       });
   }
 ]);

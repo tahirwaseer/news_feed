@@ -38,6 +38,12 @@ exports.invokeRolesPolicies = function () {
     }, {
       resources: '/api/articles/:articleId',
       permissions: ['get']
+    },{
+      resources: '/articles/:articleId',
+      permissions: ['get']
+    },{
+      resources: '/articles',
+      permissions: ['get']
     }]
   }]);
 };
@@ -49,7 +55,11 @@ exports.isAllowed = function (req, res, next) {
   var roles = (req.user) ? req.user.roles : ['guest'];
 
   // If an article is being processed and the current user created it then allow any manipulation
-  if (req.article && req.user && req.article.user.id === req.user.id) {
+  // if (req.article && req.user && req.article.user.id === req.user.id) {
+  //   return next();
+  // }
+  // to disable user 
+  if (req.article ) {
     return next();
   }
 
