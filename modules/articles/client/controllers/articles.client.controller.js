@@ -88,7 +88,8 @@ angular.module('articles').controller('ArticlesController', ['$scope', '$statePa
         // Redirect after save
         article.$save();
       }
-           
+       $location.path('articles');
+            
       
     };
   }
