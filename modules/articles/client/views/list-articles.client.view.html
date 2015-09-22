@@ -23,11 +23,11 @@
     </thead>
     <tbody>
       <tr data-ng-repeat="article in articles">
-        <td>
+        <td width="70%">
           {{article.title}}
         </td>
         <td>{{article.category}}</td>
-        <td>{{article.pubDate}}</td>
+        <td>{{formatDate(article.pubDate) | date:'d/MM/yyyy'}}</td>
         <td>
           <a href="{{article.link}}" target="_blank">View</a>
           <a class="" data-ui-sref="articles.edit({articleId: article._id})">

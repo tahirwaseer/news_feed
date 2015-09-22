@@ -2,27 +2,29 @@
   <div class="page-header">
     <h1>Import Items</h1>
   </div>
-  <div class="col-md-12">
-    <form name="articleForm" class="form-horizontal" data-ng-submit="import()" novalidate>
+  <div class="col-md-6">
+    <form name="articleForm" class="form-horizontal" data-ng-submit=" articleForm.$valid && import()" novalidate>
+      <div class="alert alert-{{notice ? 'success' : 'danger'}} fade in" ng-show="notice || error">
+        <a class="close" data-dismiss="alert" ng-click="dismiss_flash()"><i class="glyphicon glyphicon-remove-circle"></i></a>
+        <i class="glyphicon glyphicon-info"></i> {{notice ? notice : error}}
+      </div>
       <fieldset>
-        <!-- <div class="form-group">
-          <label class="control-label" for="title">Title</label>
-          <div class="controls">
-            <input name="title" type="text" data-ng-model="title" id="title" class="form-control" placeholder="Title">
-          </div>
-        </div> -->
         <div class="form-group">
-          <label class="control-label" for="content">Content</label>
+          <label class="control-label" for="content">Import Url</label>
           <div class="controls">
-            <textarea name="content" data-ng-model="import_content" id="content" class="form-control" cols="50" rows="20" placeholder="Content"></textarea>
+            <input type='url' data-ng-model="import_url" placeholder="http://www.example.xml" class="form-control"/>
+            <!-- <p ng-show="error" class="alert">Please enter a valid xml url</p> -->
           </div>
         </div>
         <div class="form-group">
-          <input type="submit" class="btn btn-default">
+          <input type="submit" value="Import" class="btn btn-primary">
         </div>
-        <div data-ng-show="error" class="text-danger">
+        <!-- <div data-ng-show="error" class="text-danger">
           <strong data-ng-bind="error"></strong>
-        </div>
+        </div> -->
+        <!-- <div data-ng-show="notice" class="text-success">
+          <strong data-ng-bind="notice"></strong>
+        </div> -->
       </fieldset>
     </form>
   </div>
