@@ -18,6 +18,7 @@ var ArticleSchema = new Schema({
     type: String,
     default: '',
     trim: true,
+    unique: true,
     required: 'Title cannot be blank'
   },
   category: {
