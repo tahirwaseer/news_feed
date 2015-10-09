@@ -1,0 +1,38 @@
+<section data-ng-controller="ItemsController">
+  <div class="page-header">
+    <h3 class="red">Section Feeds:</h3>
+  </div>
+  <div class="col-md-12">
+    <div class="alert alert-{{notice ? 'success' : 'danger'}} fade in" ng-show="notice || error">
+        <a class="close" data-dismiss="alert" ng-click="dismiss_flash()"><i class="glyphicon glyphicon-remove-circle"></i></a>
+        <i class="glyphicon glyphicon-info"></i> {{notice ? notice : error}}
+      </div>
+    <!-- <form name="itemForm" class="form-horizontal" data-ng-submit=" itemForm.$valid && import()" novalidate>
+      <fieldset>
+        <div class="form-group">
+          <label class="control-label" for="content">Import Url</label>
+          <div class="controls">
+            <input type='text' data-ng-model="import_url" placeholder="http://www.example.xml" class="form-control"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Import" class="btn btn-primary import-btn ">
+        </div>
+        
+      </fieldset>
+    </form> -->
+  </div>
+  <table class="table table-striped">
+    <tr class="row" ng-repeat="category in categories">
+      <td class="col-sm-11">
+        <h5 class="red">{{category.title}}</h5>
+        <p>
+          <a href="{{category.link}}" target="_blank">{{category.link}}</a>
+        </p>
+      </td>
+      <td class="col-sm-1">
+        <a href="javascript:void(0)" ng-click="submitForm(category.link)">Import</a>
+      </td>
+    </tr>
+  </table>
+</section>

@@ -4,7 +4,7 @@ angular.module('core').controller('HomeController', ['$scope','$http', 'Authenti
   function ($scope, $http, Authentication) {
     // This provides Authentication context.
     $scope.authentication = Authentication;
-    var url = '/api/articles';
+    var url = '/api/items';
 
    $http.get(url).success( function(response) {
       $scope.articles = response; 
