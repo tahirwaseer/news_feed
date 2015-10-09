@@ -18,8 +18,11 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/items',
       permissions: '*'
     }, {
-      resources: '/api/items/:articleId',
+      resources: '/api/items/:itemId',
       permissions: '*'
+    },{
+      resources: '/api/items/import',
+      permissions: ['get']
     }]
   }, {
     roles: ['user'],
@@ -27,7 +30,7 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/items',
       permissions: ['get', 'post']
     }, {
-      resources: '/api/items/:articleId',
+      resources: '/api/items/:itemId',
       permissions: ['get']
     },{
       resources: '/api/items/import',
@@ -39,10 +42,10 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/items',
       permissions: ['get']
     }, {
-      resources: '/api/items/:articleId',
+      resources: '/api/items/:itemId',
       permissions: ['get']
     },{
-      resources: '/items/:articleId',
+      resources: '/items/:itemId',
       permissions: ['get']
     },{
       resources: '/items',
@@ -62,7 +65,7 @@ exports.isAllowed = function (req, res, next) {
   //   return next();
   // }
   // to disable user 
-  if (req.article ) {
+  if (req.item ) {
     return next();
   }
 
