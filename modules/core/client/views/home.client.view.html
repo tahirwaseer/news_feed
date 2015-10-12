@@ -21,7 +21,7 @@
     <h2>Insights</h2>
   </div>
   <div class="list-group">
-    <a data-ng-repeat="item in items" href="{{item.link}}" target="_blank" class="list-group-item">
+    <a data-dir-paginate="item in items|itemsPerPage:10" href="{{item.link}}" target="_blank" class="list-group-item">
       <small class="list-group-item-text">
         Posted on
         <span data-ng-bind="item.pubDate | date:'mediumDate'"></span>
@@ -32,6 +32,11 @@
       <p class="list-group-item-text" data-ng-bind="item.description"></p>
     </a>
   </div>
+  <dir-pagination-controls
+        max-size="15"
+        direction-links="true"
+        boundary-links="true" >
+    </dir-pagination-controls>
   <!-- <pagination boundary-links="true" max-size="8" items-per-page="itemsPerPage" total-items="filterLength" ng-model="currentPage" ng-change="pageChanged()"></pagination> -->
   <br>Enjoy &amp; Keep Us Updated,
   <br>The Accenture Team.
