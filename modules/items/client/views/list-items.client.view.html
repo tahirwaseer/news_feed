@@ -14,6 +14,15 @@
       <p class="list-group-item-text" data-ng-bind="item.description"></p>
     </a>
   </div> -->
+  <div class="row">
+    <div class="col-md-2 col-sm-4 col-md-offset-7 text-right">
+      <b>Filter Items:</b>
+    </div>
+    <div class="col-md-3 col-sm-6">
+      <input ng-model="title " placeholder="Start typing to filter data." class="form-control">
+    </div>
+    
+  </div>
   <table class="table table-striped">
     <thead>
       <th>Title</th>
@@ -22,7 +31,7 @@
       <th>Actions</th>
     </thead>
     <tbody>
-      <tr data-ng-repeat="item in items | filter: {categoryId: category() }">
+      <tr data-dir-paginate="item in items| filter: {categoryId: getCategory()}|filter: title|itemsPerPage:15">
         <td width="70%">
           {{item.title}}
         </td>
@@ -43,4 +52,9 @@
   <div class="alert alert-warning text-center" data-ng-if="items.$resolved && !items.length">
     No items yet, why don't you <a data-ui-sref="items.create">create one</a>?
   </div>
+  <dir-pagination-controls
+        max-size="15"
+        direction-links="true"
+        boundary-links="true" >
+    </dir-pagination-controls>
 </section>

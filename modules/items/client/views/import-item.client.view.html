@@ -23,7 +23,7 @@
     </form> -->
   </div>
   <table class="table table-striped">
-    <tr class="row" ng-repeat="category in categories">
+    <tr class="row" dir-paginate= "category in categories | itemsPerPage: 6">
       <td class="col-sm-11">
         <h5 class="red">{{category.title}}</h5>
         <p>
@@ -35,4 +35,6 @@
       </td>
     </tr>
   </table>
+  <dir-pagination-controls></dir-pagination-controls>
+  
 </section>

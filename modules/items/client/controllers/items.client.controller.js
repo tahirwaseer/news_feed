@@ -76,7 +76,7 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
         }
     }
 
-    $scope.category = function(){
+    $scope.getCategory = function(){
       return $location.search().category;
     };
     // Post the imported content to server
