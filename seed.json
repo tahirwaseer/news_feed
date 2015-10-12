@@ -1,5 +1,5 @@
 {
 	"undefined": "localhost/mean-dev",
 	"dev": "localhost/mean-dev",
-	"prod": "localhost/heroku_gqn4hr38"
+	"prod": "ds033744.mongolab.com:33744/heroku_gqn4hr38"
 }
