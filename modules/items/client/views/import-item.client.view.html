@@ -1,4 +1,4 @@
-<section data-ng-controller="ItemsController">
+<section data-ng-controller="ItemsController" data-ng-init="getCategories()">
   <div class="page-header">
     <h3 class="red">Section Feeds:</h3>
   </div>
@@ -31,7 +31,7 @@
         </p>
       </td>
       <td class="col-sm-1">
-        <a href="javascript:void(0)" ng-click="submitForm(category.link)">Import</a>
+        <a href="javascript:void(0)" ng-click="submitForm(category.link, category._id)">Import</a>
       </td>
     </tr>
   </table>

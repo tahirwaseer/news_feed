@@ -19,7 +19,7 @@
       <th>Title</th>
       
       <th>Link</th>
-      
+      <th>Imported Items</th>
       <th>Actions</th>
     </thead>
     <tbody>
@@ -31,7 +31,7 @@
         <td>
           {{category.link}}
         </td>
-        
+        <td><a href="/items?category={{category._id}}">View Items</a></td>
         <td>
           <a href="{{category.link}}" target="_blank">View</a>
           <a class="" data-ui-sref="categories.edit({categoryId:category._id})">

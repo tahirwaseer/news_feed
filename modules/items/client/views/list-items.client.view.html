@@ -22,7 +22,7 @@
       <th>Actions</th>
     </thead>
     <tbody>
-      <tr data-ng-repeat="item in items">
+      <tr data-ng-repeat="item in items | filter: {categoryId: category() }">
         <td width="70%">
           {{item.title}}
         </td>

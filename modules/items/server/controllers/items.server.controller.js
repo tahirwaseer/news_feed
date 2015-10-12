@@ -110,6 +110,41 @@ exports.itemByID = function (req, res, next, id) {
   });
 };
 
+exports.bycategory = function (req, res) {
+  // console.log(req.params.categoryId);
+  // alert(req);
+  Item.find({categoryId: req.params.categoryId}).sort('-created').populate( 'displayName').exec(function (err, items) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      res.json(items);
+    }
+  });
+};
+
+// exports.itemByCategory = function (req, res, next, id) {
+
+//   if (!mongoose.Types.ObjectId.isValid(id)) {
+//     return res.status(400).send({
+//       message: 'Item is invalid'
+//     });
+//   }
+
+//   Item.findByCategoryId(id).populate('user', 'displayName').exec(function (err, item) {
+//     if (err) {
+//       return next(err);
+//     } else if (!item) {
+//       return res.status(404).send({
+//         message: 'No item with that identifier has been found'
+//       });
+//     }
+//     req.item = item;
+//     next();
+//   });
+// };
+
 function xmlToJson(url, callback) {
   var req = https.get(url, function(res) {
     var xml = '';
@@ -136,7 +171,7 @@ function xmlToJson(url, callback) {
 
 exports.import = function (req, res) {
   var url = req.query.url;
-
+  var category_id = req.query.category_id;
   xmlToJson(url, function(err, data) {
     if (err) {
       // Handle this however you like
@@ -151,6 +186,7 @@ exports.import = function (req, res) {
         var item = new Item({
           title: items[i].title[0],
           category: import_data.rss.channel[0].description[0],
+          categoryId: category_id,
           description: items[i].description[0],
           link: items[i].link,
           isPermalink: items[i].guid.$,

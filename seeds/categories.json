@@ -1,11 +1,4 @@
-[
-                          {"title":"News","link":"https://newsroom.accenture.com/news/rss.xml"}, 
-                          {"title":"Industries","link":"https://newsroom.accenture.com/industries/rss.xml"},
-                          {"title":"Agribusiness","link":"https://newsroom.accenture.com/industries/agribusiness/rss.xml"} ,
-                          {"title":"Airlines","link":"https://newsroom.accenture.com/industries/airlines/rss.xml"} ,
-                          {"title":"Automotive","link":"https://newsroom.accenture.com/industries/automotive/rss.xml"} ,
-                           {"title":"Communications","link":"https://newsroom.accenture.com/industries/communications/rss.xml"} ,
-                          {"title":"Consumer Goods &  Services", "link":"https://newsroom.accenture.com/industries/consumer-goods--services/rss.xml"} ,
+[{"title":"News","link":"https://newsroom.accenture.com/news/rss.xml"}, {"title":"Industries","link":"https://newsroom.accenture.com/industries/rss.xml"},{"title":"Agribusiness","link":"https://newsroom.accenture.com/industries/agribusiness/rss.xml"} ,{"title":"Airlines","link":"https://newsroom.accenture.com/industries/airlines/rss.xml"} ,{"title":"Automotive","link":"https://newsroom.accenture.com/industries/automotive/rss.xml"} ,{"title":"Communications","link":"https://newsroom.accenture.com/industries/communications/rss.xml"} ,{"title":"Consumer Goods &  Services", "link":"https://newsroom.accenture.com/industries/consumer-goods--services/rss.xml"} ,
                           {"title":"Electronics & High Tech", "link":"https://newsroom.accenture.com/industries/electronics-high-tech/rss.xml"} ,
                           {"title":"Freight & Logistics","link":"https://newsroom.accenture.com/industries/freight-logistics/rss.xml"},
                           {"title":"Health & Life Sciences","link":"https://newsroom.accenture.com/industries/health-life-sciences/rss.xml"},

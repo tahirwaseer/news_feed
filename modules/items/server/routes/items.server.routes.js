@@ -21,6 +21,11 @@ module.exports = function (app) {
     .put(items.update)
     .delete(items.delete);
 
+  // Returns items for given category_id
+  app.route('/api/items/bycategory/:categoryId').all(itemsPolicy.isAllowed)
+    .get(items.bycategory);
+    
   // Finish by binding the item middleware
   app.param('itemId', items.itemByID);
+  // app.param('categoryId', items.itemByCategoryId);
 };

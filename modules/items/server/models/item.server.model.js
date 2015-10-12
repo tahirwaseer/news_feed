@@ -26,6 +26,11 @@ var ItemSchema = new Schema({
     default: '',
     trim: true,
   },
+  categoryId: {
+    type: String,
+    default: '',
+    trim: true,
+  },
   description: {
     type: String,
     default: '',
