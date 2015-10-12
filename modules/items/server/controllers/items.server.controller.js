@@ -146,21 +146,21 @@ exports.import = function (req, res) {
     var import_data = JSON.parse(json_string);
     var items = import_data.rss.channel[0].item;
     var arr = [];
-    for (var i = items.length - 1; i >= 0; i--) {
-      var item = new Item({
-        title: items[i].title[0],
-        category: import_data.rss.channel[0].description[0],
-        description: items[i].description[0],
-        link: items[i].link,
-        isPermalink: items[i].guid.$,
-        guid: items[i].guid[0]._,
-        pubDate: items[i].pubDate[0] 
-      });
-      item.save();
-    }  
+      for (var i = items.length - 1; i >= 0; i--) {
+        var item = new Item({
+          title: items[i].title[0],
+          category: import_data.rss.channel[0].description[0],
+          description: items[i].description[0],
+          link: items[i].link,
+          isPermalink: items[i].guid.$,
+          guid: items[i].guid[0]._,
+          pubDate: items[i].pubDate[0] 
+        });
+        item.save();
+      }  
     // Do whatever you want with the data here
     // Following just pretty-prints the object
-    console.log(import_data.rss.channel[0].item[0].pubDate[0]);
+    // console.log(import_data.rss.channel[0].item[0].pubDate[0]);
     res.json('Succesfully imported');
   });
   // item.title = req.body.title;

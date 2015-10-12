@@ -78,6 +78,12 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
 
     // Post the imported content to server
     $scope.import = function() {
+        // $scope.categories = $http({
+        //                 method: 'GET',
+        //                 /*posting to /post */
+        //                 url: '/api/categories',
+        //                 params: {url: $scope.import_url},
+        //             });
         if(isXmlUrl($scope.import_url)){
           $scope.error = false;
           $scope.notice = 'Import started';
@@ -135,66 +141,76 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
           var dateOut = new Date(date);
           return dateOut;
     };
-    $scope.categories = [
-                          {'title':'News','link':'https://newsroom.accenture.com/news/rss.xml'}, 
-                          {'title':'Industries','link':'https://newsroom.accenture.com/industries/rss.xml'},
-                          {'title':'Agribusiness','link':'https://newsroom.accenture.com/industries/agribusiness/rss.xml'} ,
-                          {'title':'Airlines','link':'https://newsroom.accenture.com/industries/airlines/rss.xml'} ,
-                          {'title':'Automotive','link':'https://newsroom.accenture.com/industries/automotive/rss.xml'} ,
-                           {'title':'Communications','link':'https://newsroom.accenture.com/industries/communications/rss.xml'} ,
-                          {'title':'Consumer Goods &  Services', 'link':'https://newsroom.accenture.com/industries/consumer-goods--services/rss.xml'} ,
-                          {'title':'Electronics & High Tech', 'link':'https://newsroom.accenture.com/industries/electronics-high-tech/rss.xml'} ,
-                          {'title':'Freight & Logistics','link':'https://newsroom.accenture.com/industries/freight-logistics/rss.xml'},
-                          {'title':'Health & Life Sciences','link':'https://newsroom.accenture.com/industries/health-life-sciences/rss.xml'},
-                          {'title':'Industrial Equipment','link':'https://newsroom.accenture.com/industries/industrial-equipment/rss.xml'},
-                          {'title':'Management Consulting','link':'https://newsroom.accenture.com/industries/management-consulting/rss.xml'},
+    var fetch = $http({
+                        method: 'GET',
+                        /*posting to /post */
+                        url: '/api/categories',
+                        params: {url: $scope.import_url},
+                    });
+        fetch.success(function (response) {
+                        /*executed when server responds back*/
+                        $scope.categories= response;
+                    });
+    // $scope.categories = [
+    //                       {'title':'News','link':'https://newsroom.accenture.com/news/rss.xml'}, 
+    //                       {'title':'Industries','link':'https://newsroom.accenture.com/industries/rss.xml'},
+    //                       {'title':'Agribusiness','link':'https://newsroom.accenture.com/industries/agribusiness/rss.xml'} ,
+    //                       {'title':'Airlines','link':'https://newsroom.accenture.com/industries/airlines/rss.xml'} ,
+    //                       {'title':'Automotive','link':'https://newsroom.accenture.com/industries/automotive/rss.xml'} ,
+    //                        {'title':'Communications','link':'https://newsroom.accenture.com/industries/communications/rss.xml'} ,
+    //                       {'title':'Consumer Goods &  Services', 'link':'https://newsroom.accenture.com/industries/consumer-goods--services/rss.xml'} ,
+    //                       {'title':'Electronics & High Tech', 'link':'https://newsroom.accenture.com/industries/electronics-high-tech/rss.xml'} ,
+    //                       {'title':'Freight & Logistics','link':'https://newsroom.accenture.com/industries/freight-logistics/rss.xml'},
+    //                       {'title':'Health & Life Sciences','link':'https://newsroom.accenture.com/industries/health-life-sciences/rss.xml'},
+    //                       {'title':'Industrial Equipment','link':'https://newsroom.accenture.com/industries/industrial-equipment/rss.xml'},
+    //                       {'title':'Management Consulting','link':'https://newsroom.accenture.com/industries/management-consulting/rss.xml'},
 
-                          {'title':'Media & Entertainment','link':'https://newsroom.accenture.com/industries/media-entertainment/rss.xml'},
+    //                       {'title':'Media & Entertainment','link':'https://newsroom.accenture.com/industries/media-entertainment/rss.xml'},
 
-                          {'title':'Public Transportation','link':'https://newsroom.accenture.com/industries/public-transportation/rss.xml'},
+    //                       {'title':'Public Transportation','link':'https://newsroom.accenture.com/industries/public-transportation/rss.xml'},
 
-                          {'title':'Rail','link':'https://newsroom.accenture.com/industries/rail/rss.xml'},
-
-
-                          {'title':'Retail','link':'https://newsroom.accenture.com/industries/retail/rss.xml'},
-
-                          {'title':'Strategy','link':'https://newsroom.accenture.com/industries/strategy/rss.xml'},
-
-                          {'title':'Travel Services / Hospitality','link':'https://newsroom.accenture.com/industries/travel-services-hospitality/rss.xml'},
-
-                          {'title':'Subjects','link':'https://newsroom.accenture.com/subjects/rss.xml'},
-
-
-                          {'title':'Acquisitions','link':'https://newsroom.accenture.com/subjects/acquisitions/rss.xml'},
-
-                          {'title':'Analytics','link':'https://newsroom.accenture.com/subjects/analytics/rss.xml'},
+    //                       {'title':'Rail','link':'https://newsroom.accenture.com/industries/rail/rss.xml'},
 
 
-                          {'title':'Client Wins/New Contracts','link':'https://newsroom.accenture.com/subjects/client-winsnew-contracts/rss.xml'},
+    //                       {'title':'Retail','link':'https://newsroom.accenture.com/industries/retail/rss.xml'},
 
-                          {'title':'Digital','link':'https://newsroom.accenture.com/subjects/digital/rss.xml'},
+    //                       {'title':'Strategy','link':'https://newsroom.accenture.com/industries/strategy/rss.xml'},
 
-                          {'title':'Financial/ Earnings','link':'https://newsroom.accenture.com/subjects/financial-earnings/rss.xml'},
+    //                       {'title':'Travel Services / Hospitality','link':'https://newsroom.accenture.com/industries/travel-services-hospitality/rss.xml'},
 
-                          {'title':'Interactive Marketing','link':'https://newsroom.accenture.com/subjects/interactive-marketing/rss.xml'},
-
-                          {'title':'Leadership / Management','link':'https://newsroom.accenture.com/subjects/leadership-management/rss.xml'},
-
-                          {'title':'Management Consulting','link':'https://newsroom.accenture.com/subjects/management-consulting/rss.xml'},
-
-                          {'title':'Mobility','link':'https://newsroom.accenture.com/subjects/mobility/rss.xml'},
-
-                          {'title':'Operations','link':'https://newsroom.accenture.com/subjects/operations/rss.xml'},
-
-                          {'title':'Outsourcing','link':'https://newsroom.accenture.com/subjects/outsourcing/rss.xml'},
+    //                       {'title':'Subjects','link':'https://newsroom.accenture.com/subjects/rss.xml'},
 
 
-                          {'title':'Research / Surveys','link':'https://newsroom.accenture.com/subjects/research-surveys/rss.xml'},
+    //                       {'title':'Acquisitions','link':'https://newsroom.accenture.com/subjects/acquisitions/rss.xml'},
 
-                          {'title':'Strategy','link':'https://newsroom.accenture.com/subjects/strategy/rss.xml'},
+    //                       {'title':'Analytics','link':'https://newsroom.accenture.com/subjects/analytics/rss.xml'},
 
-                          {'title':'Technology','link':'https://newsroom.accenture.com/subjects/technology/rss.xml'}
-                          ];
+
+    //                       {'title':'Client Wins/New Contracts','link':'https://newsroom.accenture.com/subjects/client-winsnew-contracts/rss.xml'},
+
+    //                       {'title':'Digital','link':'https://newsroom.accenture.com/subjects/digital/rss.xml'},
+
+    //                       {'title':'Financial/ Earnings','link':'https://newsroom.accenture.com/subjects/financial-earnings/rss.xml'},
+
+    //                       {'title':'Interactive Marketing','link':'https://newsroom.accenture.com/subjects/interactive-marketing/rss.xml'},
+
+    //                       {'title':'Leadership / Management','link':'https://newsroom.accenture.com/subjects/leadership-management/rss.xml'},
+
+    //                       {'title':'Management Consulting','link':'https://newsroom.accenture.com/subjects/management-consulting/rss.xml'},
+
+    //                       {'title':'Mobility','link':'https://newsroom.accenture.com/subjects/mobility/rss.xml'},
+
+    //                       {'title':'Operations','link':'https://newsroom.accenture.com/subjects/operations/rss.xml'},
+
+    //                       {'title':'Outsourcing','link':'https://newsroom.accenture.com/subjects/outsourcing/rss.xml'},
+
+
+    //                       {'title':'Research / Surveys','link':'https://newsroom.accenture.com/subjects/research-surveys/rss.xml'},
+
+    //                       {'title':'Strategy','link':'https://newsroom.accenture.com/subjects/strategy/rss.xml'},
+
+    //                       {'title':'Technology','link':'https://newsroom.accenture.com/subjects/technology/rss.xml'}
+    //                       ];
 
 
   }
