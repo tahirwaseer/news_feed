@@ -146,6 +146,7 @@ exports.import = function (req, res) {
     var import_data = JSON.parse(json_string);
     var items = import_data.rss.channel[0].item;
     var arr = [];
+    if (items){
       for (var i = items.length - 1; i >= 0; i--) {
         var item = new Item({
           title: items[i].title[0],
@@ -157,7 +158,8 @@ exports.import = function (req, res) {
           pubDate: items[i].pubDate[0] 
         });
         item.save();
-      }  
+      }
+    }    
     // Do whatever you want with the data here
     // Following just pretty-prints the object
     // console.log(import_data.rss.channel[0].item[0].pubDate[0]);
