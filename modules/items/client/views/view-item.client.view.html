@@ -13,11 +13,12 @@
   <small>
     <em class="text-muted">
       Posted on
-      <span data-ng-bind="item.pubDate | date:'mediumDate'"></span>
+      <pre ng-bind-html-unsafe="text | escapeHtml | linky"></pre>
+      <pre data-ng-bind-html-unsafe="item.pubDate | date:'mediumDate'"></pre>
       <!-- by
       <span data-ng-bind="item.user.displayName"></span> -->
     </em>
   </small>
   <!-- <p class="lead" data-ng-bind="item.content"></p> -->
-  <p class="lead"> {{ item.description }}</p>
+  <p class="lead"> {{item.description}}</p>
 </section>

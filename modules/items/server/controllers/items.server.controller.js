@@ -39,10 +39,10 @@ exports.read = function (req, res) {
  */
 exports.update = function (req, res) {
   var item = req.item;
-
+  // console.log(req.body);
   item.title = req.body.title;
-  item.content = req.body.content;
-
+  item.description = req.body.description;
+  item.link = req.body.link;
   item.save(function (err) {
     if (err) {
       return res.status(400).send({
