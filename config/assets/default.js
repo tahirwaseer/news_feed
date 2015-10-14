@@ -9,6 +9,7 @@ module.exports = {
       ],
       js: [
         'public/lib/angular/angular.js',
+        'http://ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-sanitize.min.js',
         'public/lib/angular-resource/angular-resource.js',
         'public/lib/angular-animate/angular-animate.js',
         'public/lib/angular-ui-router/release/angular-ui-router.js',

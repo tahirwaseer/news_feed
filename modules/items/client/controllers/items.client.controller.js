@@ -3,6 +3,10 @@
 angular.module('items').controller('ItemsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Items','$http',
   function ($scope, $stateParams, $location, Authentication, Items, $http) {
     $scope.authentication = Authentication;
+
+
+
+
       
     // Create new Article
     $scope.create = function () {
@@ -48,7 +52,7 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
     // Update existing Article
     $scope.update = function () {
       var item = $scope.item;
-
+      // console.log(item);
       item.$update(function () {
         $location.path('items');
       }, function (errorResponse) {
