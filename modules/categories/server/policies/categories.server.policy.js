@@ -31,22 +31,22 @@ exports.invokeRolesPolicies = function () {
       permissions: ['get']
     }]
   }
-  // , {
-  //   roles: ['guest'],
-  //   allows: [{
-  //     resources: '/api/categories',
-  //     permissions: ['get']
-  //   }, {
-  //     resources: '/api/categories/:categoryId',
-  //     permissions: ['get']
-  //   },{
-  //     resources: '/categories/:categoryId',
-  //     permissions: ['get']
-  //   },{
-  //     resources: '/categories',
-  //     permissions: ['get']
-  //   }]
-  // }
+  , {
+    roles: ['guest'],
+    allows: [{
+      resources: '/api/categories',
+      permissions: ['get']
+    }, {
+      resources: '/api/categories/:categoryId',
+      permissions: ['get']
+    },{
+      resources: '/categories/:categoryId',
+      permissions: ['get']
+    },{
+      resources: '/categories',
+      permissions: ['get']
+    }]
+  }
   ]);
 };
 
