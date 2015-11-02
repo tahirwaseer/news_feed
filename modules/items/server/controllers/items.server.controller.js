@@ -112,6 +112,7 @@ exports.itemByID = function (req, res, next, id) {
 
 exports.bycategory = function (req, res) {
   // console.log(req.params.categoryId);
+  // console.log(req);
   // alert(req);
   Item.find({categoryId: req.params.categoryId}).sort('-created').populate( 'displayName').exec(function (err, items) {
     if (err) {

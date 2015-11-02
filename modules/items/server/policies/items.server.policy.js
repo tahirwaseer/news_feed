@@ -41,23 +41,26 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/items/bycategory/:categoryId',
       permissions: ['get']
     }]
+  },
+  {
+    roles: ['guest'],
+    allows: [{
+      resources: '/api/items',
+      permissions: ['get']
+    }, {
+      resources: '/api/items/:itemId',
+      permissions: ['get']
+    },{
+      resources: '/items/:itemId',
+      permissions: ['get']
+    },{
+      resources: '/items',
+      permissions: ['get']
+    },{
+      resources: '/api/items/bycategory/:categoryId',
+      permissions: ['get']
+    }]
   }
-  // , {
-  //   roles: ['guest'],
-  //   allows: [{
-  //     resources: '/api/items',
-  //     permissions: ['get']
-  //   }, {
-  //     resources: '/api/items/:itemId',
-  //     permissions: ['get']
-  //   },{
-  //     resources: '/items/:itemId',
-  //     permissions: ['get']
-  //   },{
-  //     resources: '/items',
-  //     permissions: ['get']
-  //   }]
-  // }
   ]);
 };
 
