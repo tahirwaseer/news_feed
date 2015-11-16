@@ -33,13 +33,17 @@
     <tbody>
       <tr data-dir-paginate="item in items| filter: {categoryId: getCategory()}|filter: title|itemsPerPage:15">
         <td width="70%">
-          {{item.title}}
+       <!--<a class="" data-ui-sref="items.view({itemId: item._id})" >{{item.title}}</a>-->
+       <a href="/items/{{item._id}}"> {{item.title}}</a>
+       <!-- <a href="{{item.v}}" >{{item.title}}</a> -->
+          
         </td>
         <td>{{item.category}}</td>
         <td>{{formatDate(item.pubDate) | date:'d/MM/yyyy'}}</td>
         <td>
 
          <a href="{{item.link}}" target="_blank">View</a> 
+         <a href="" target="_blank">History</a> 
           <a class="" data-ui-sref="items.edit({itemId: item._id})">
             <i class="glyphicon glyphicon-edit"></i>
           </a>

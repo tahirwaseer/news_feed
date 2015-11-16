@@ -59,17 +59,46 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
         $scope.error = errorResponse.data.message;
       });
     };
-
+    $scope.gethistory = function(item){
+     // alert(item._id);
+      var item = $scope.item;
+      var posting = $http({
+                        method: 'GET',
+                        /*posting to /post */
+                        url: '/api/logs',
+                        params: {itemId: item._id}
+                    });
+                    posting.success(function (response) {
+                        /*executed when server responds back*/
+                        $scope.history = response;
+                        // alert('Items successfully imported.');
+                        // $scope.response.data = response;
+                    });
+    };
     // Find a list of Items
     $scope.find = function () {
       $scope.items = Items.query();
     };
+
+    
 
     // Find existing Article
     $scope.findOne = function () {
       $scope.item = Items.get({
         itemId: $stateParams.itemId
       });
+      var posting = $http({
+                        method: 'GET',
+                        /*posting to /post */
+                        url: '/api/logs',
+                        params: {itemId: $stateParams.itemId}
+                    });
+                    posting.success(function (response) {
+                        /*executed when server responds back*/
+                        $scope.history = response;
+                        
+                        // $scope.response.data = response;
+                    });
     };
 
     function isXmlUrl(s) {

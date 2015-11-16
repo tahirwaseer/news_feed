@@ -24,6 +24,12 @@ module.exports = function (app) {
   // Returns items for given category_id
   app.route('/api/items/bycategory/:categoryId').all(itemsPolicy.isAllowed)
     .get(items.bycategory);
+  
+  // updates logs 
+  app.route('/api/logs/new').all(itemsPolicy.isAllowed)
+    .post(items.addlog);
+  app.route('/api/logs').all(itemsPolicy.isAllowed)
+    .get(items.logs);
     
   // Finish by binding the item middleware
   app.param('itemId', items.itemByID);

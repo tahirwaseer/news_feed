@@ -23,6 +23,12 @@ exports.invokeRolesPolicies = function () {
     },{
       resources: '/api/items/import',
       permissions: ['get']
+    },{
+      resources: '/api/logs',
+      permissions: ['get']
+    },{
+      resources: '/api/logs/new',
+      permissions: ['post']
     }]
   }, 
   {
@@ -40,6 +46,9 @@ exports.invokeRolesPolicies = function () {
     {
       resources: '/api/items/bycategory/:categoryId',
       permissions: ['get']
+    },{
+      resources: '/api/logs/new',
+      permissions: ['post']
     }]
   },
   {
@@ -59,6 +68,9 @@ exports.invokeRolesPolicies = function () {
     },{
       resources: '/api/items/bycategory/:categoryId',
       permissions: ['get']
+    },{
+      resources: '/api/logs/new',
+      permissions: ['post']
     }]
   }
   ]);

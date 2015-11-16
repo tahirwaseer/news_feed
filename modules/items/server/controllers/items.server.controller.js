@@ -1,11 +1,14 @@
-'use strict';
-
+// 'use strict';
+var arr = {};
 /**
  * Module dependencies.
  */
 var path = require('path'),
   mongoose = require('mongoose'),
   Item = mongoose.model('Item'),
+  Log = mongoose.model('Log'),
+   User = mongoose.model('User'),
+
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 var parseString = require('xml2js').parseString;
 var https = require('https');
@@ -25,6 +28,8 @@ exports.create = function (req, res) {
       res.json(item);
     }
   });
+
+
 };
 
 /**
@@ -108,7 +113,181 @@ exports.itemByID = function (req, res, next, id) {
     req.item = item;
     next();
   });
+
 };
+
+
+
+
+
+
+
+
+
+
+// Item tracking code
+
+exports.addlog = function (req, res) {
+    
+   var log = new Log();
+  log.userId = req.body.userId;
+  log.itemId= req.body.itemId;
+  console.log(req.body);
+  log.save(function (err) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+      console.log(log);
+      res.json(log);
+    }
+  });
+}
+
+    
+  
+  
+//  Log show function
+
+exports.logs = function (req, res) {
+
+  //  var count=0;
+
+    //global.data=[];
+
+    //   module.exports=arr=[];
+ 
+     //module.exports=arr[count] = {};
+
+
+
+  console.log(req.query.itemId);
+  Log.find({'itemId': req.query.itemId}).sort('-time').populate( 'itemId').exec(function (err, logs) {
+    
+
+
+  
+       userIds = [];
+         times = [];
+    for (var i = logs.length - 1; i >= 0; i--) {
+             
+             count=0;
+            
+            userIds[i] = logs[i].userId;
+            times[logs[i].userId] = logs[i].time;
+          console.log("hellow times")
+        console.log(logs[i].userId);
+          
+        }  //End of For Loop
+   
+     console.log(userIds); 
+    User.find({_id: {$in: userIds}}).exec(function(err,users){
+      data = {};
+      console.log(users);
+
+      for (var i = users.length - 1; i >= 0; i--) {
+       
+        data[i]={};
+        data[i]['user']= users[i].username;
+        data[i]['time']= times[users[i]._id];
+
+          console.log("hellow user i");
+        console.log(users[i]);
+      };
+      console.log(data);
+      res.json(data);
+    });
+  
+      
+  });  //End of Log.find functions
+
+
+}; //  End of export.logs functions
+      
+ 
+
+      
+        
+
+
+
+////// end Item tracking code
+
+//// item tracking backup
+//////////////////////////
+
+// exports.logs = function (req, res) {
+//   console.log(req.query.itemId);
+//   Log.find({'itemId': req.query.itemId}).sort('-time').populate( 'itemId').exec(function (err, logs) {
+    
+
+
+  
+
+// for (var i = logs.length - 1; i >= 0; i--) {
+//          var times;
+//          count=0;
+//         var id = logs[i].userId;
+//         times = logs[i].time;
+
+//         // console.log("hellow");
+//         // console.log(id);
+//         // name = {};
+        
+        
+//         User.findById(id).exec(function (err, u) {
+
+//         var count=0;
+
+//     var arr=[];
+ 
+//      arr[count] = {};
+       
+//        var user;
+//        console.log("hellow time");
+//        console.log(times);
+//         arr[count]['time']=times;
+//         arr[count]['user'] = u.username;
+//         console.log("hellow arr");
+//         console.log(arr);
+//         res.json(arr);
+        
+         
+//         }); //End of User.findById
+
+
+//          count=count+1;
+   
+      
+//     }  //End of For Loop
+   
+      
+
+  
+      
+//   });  //End of Log.find functions
+
+
+// }; //  End of export.logs functions
+
+
+
+
+
+
+
+
+
+////////////////////////////
+//End item tracking backup
+
+
+
+
+
+
+
 
 exports.bycategory = function (req, res) {
   // console.log(req.params.categoryId);

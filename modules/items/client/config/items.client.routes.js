@@ -25,6 +25,11 @@ angular.module('items').config(['$stateProvider',
         url: '/:itemId',
         templateUrl: 'modules/items/views/view-item.client.view.html'
       })
+
+       
+
+
+      
       .state('items.edit', {
         url: '/:itemId/edit',
         templateUrl: 'modules/items/views/edit-item.client.view.html'

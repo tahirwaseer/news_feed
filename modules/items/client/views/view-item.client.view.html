@@ -10,15 +10,41 @@
       <i class="glyphicon glyphicon-trash"></i>
     </a>
   </div>
-  <small>
+  <!--<small>
     <em class="text-muted">
       Posted on
       <pre ng-bind-html-unsafe="text | escapeHtml | linky"></pre>
       <pre data-ng-bind-html-unsafe="item.pubDate | date:'mediumDate'"></pre>
-      <!-- by
-      <span data-ng-bind="item.user.displayName"></span> -->
+      < by
+      <span data-ng-bind="item.user.displayName"></span> 
     </em>
-  </small>
+  </small> -->
   <!-- <p class="lead" data-ng-bind="item.content"></p> -->
   <p class="lead"> {{item.description}}</p>
+
+    <h3>History</h3>
+  <div>
+
+  <!--<ul ng-controller="ItemsController"> </ul> -->
+    <p ng-repeat="x in history">
+        <b>{{x.user}}</b>
+        visited at:   
+        {{x.time | date:'dd-MM-yyyy   h:mm:ss '}}
+    </p>
+    
+
+
+
+
+<!--
+  <tr>   {{history[1].user}} </tr> 
+  <span>Visted At: {{history[1].time | date:'dd-MM-yyyy   h:mm:ss '}}</span> -->
+  
+  
+    
+  </div>
+  
+  
+  
 </section>
+
