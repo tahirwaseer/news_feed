@@ -52,11 +52,11 @@ function checkDirectorySync(directory) {
 
 exports.update = function (req, res) {
   var item = req.item;
-  console.log(req.files);
+  console.log(Object.keys(req.files).length > 0);
   console.log(req.files.image);
-  console.log(req.files.image.name);
+  // console.log(req.files.image.name);
   // console.log(req);
-  if (item) {
+  if (Object.keys(req.files).length > 0) {
     var dir = './modules/items/client/img/uploads/';
     checkDirectorySync('./modules/items/client/img/');
     checkDirectorySync(dir);
@@ -66,7 +66,7 @@ exports.update = function (req, res) {
           message: 'Error occurred while uploading item picture'
         });
       } else {
-        item.image = '/modules/items/client/img/uploads/' + req.files.image.name;
+        item.image = dir + req.files.image.name;
         item.title = req.body.title;
         item.description = req.body.description;
         item.link = req.body.link;
@@ -83,8 +83,19 @@ exports.update = function (req, res) {
       }
     });
   } else {
-    res.status(400).send({
-      message: 'Item not found.'
+    item.image = item.image;
+    item.title = req.body.title;
+    item.description = req.body.description;
+    item.link = req.body.link;
+    // item.image = req.body.image;
+    item.save(function (err) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.json(item);
+      }
     });
   }
   
