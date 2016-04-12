@@ -1,10 +1,47 @@
 'use strict';
 // Items controller
-angular.module('items').controller('ItemsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Items','$http',
-  function ($scope, $stateParams, $location, Authentication, Items, $http) {
+angular.module('items').directive('fileModel', ['$parse', function ($parse) {
+    return {
+       restrict: 'A',
+       link: function(scope, element, attrs) {
+          var model = $parse(attrs.fileModel);
+          var modelSetter = model.assign;
+          
+          element.bind('change', function(){
+             scope.$apply(function(){
+                modelSetter(scope, element[0].files[0]);
+             });
+          });
+       }
+    };
+ }]);
+
+ angular.module('items').service('multipartForm', ['$http', function ($http) {
+    this.post = function(data, uploadUrl,$location){
+       var fd = new FormData();
+
+       for(var key in data){
+        fd.append(key,data[key]);
+       }
+    
+       $http.put(uploadUrl, fd, {
+          transformRequest: angular.identity,
+          headers: {'Content-Type': undefined}
+       })
+    
+       .success(function(){
+        $location.path('items');
+
+       })
+    
+       .error(function(){
+       });
+    };
+ }]);
+
+angular.module('items').controller('ItemsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Items','$http','multipartForm',
+  function ($scope, $stateParams, $location, Authentication, Items, $http,multipartForm) {
     $scope.authentication = Authentication;
-
-
 
 
       
@@ -52,16 +89,18 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
     // Update existing Article
     $scope.update = function () {
       var item = $scope.item;
-      // console.log(item);
-      item.$update(function () {
-        $location.path('items');
-      }, function (errorResponse) {
-        $scope.error = errorResponse.data.message;
-      });
+      var uploadUrl='/api/items/'+item._id;
+      console.log(item);
+      multipartForm.post(item,uploadUrl,$location);
+      // item.$update(function () {
+      //   $location.path('items');
+      // }, function (errorResponse) {
+      //   $scope.error = errorResponse.data.message;
+      // });
     };
     $scope.gethistory = function(item){
      // alert(item._id);
-      var item = $scope.item;
+      // var item = $scope.item;
       var posting = $http({
                         method: 'GET',
                         /*posting to /post */
@@ -87,6 +126,7 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
       $scope.item = Items.get({
         itemId: $stateParams.itemId
       });
+      // console.log($scope.item);
       var posting = $http({
                         method: 'GET',
                         /*posting to /post */

@@ -3,7 +3,7 @@
     <h1>Edit Item</h1>
   </div>
   <div class="col-md-12">
-    <form name="itemForm" class="form-horizontal" data-ng-submit="update()" novalidate>
+    <form name="itemForm" class="form-horizontal" enctype="multipart/form-data" data-ng-submit="update()" novalidate>
       <fieldset>
         <div class="form-group">
           <label class="control-label" for="title">Title</label>
@@ -21,6 +21,13 @@
           <label class="control-label" for="content">Url</label>
           <div class="controls">
             <input name="link" type="url" data-ng-model="item.link" id="link" class="form-control" placeholder="http://www.example.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="content">Image</label>
+          <div class="controls">
+            <div  data-ng-if="item.image"><img ng-src="{{item.image}}" class="img-thumbnail user-profile-picture"></div>
+            <input name="image" type="file" file-model="item.image" id="image" class="form-control">
           </div>
         </div>
         <div class="form-group">

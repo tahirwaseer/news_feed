@@ -29,6 +29,9 @@ exports.invokeRolesPolicies = function () {
     },{
       resources: '/api/logs/new',
       permissions: ['post']
+    },{
+      resources: '/modules/items/client/img/uploads/:image_name',
+      permissions: ['get']
     }]
   }, 
   {
@@ -49,6 +52,9 @@ exports.invokeRolesPolicies = function () {
     },{
       resources: '/api/logs/new',
       permissions: ['post']
+    },{
+      resources: '/modules/items/client/img/uploads/:image_name',
+      permissions: ['get']
     }]
   },
   {
@@ -71,6 +77,9 @@ exports.invokeRolesPolicies = function () {
     },{
       resources: '/api/logs/new',
       permissions: ['post']
+    },{
+      resources: '/modules/items/client/img/uploads/:image_name',
+      permissions: ['get']
     }]
   }
   ]);

@@ -41,6 +41,11 @@ var ItemSchema = new Schema({
     default: '',
     trim: true
   },
+  image: {
+    type: String,
+    default: '',
+    trim: true
+  },
   isPermalink: {
     type: String,
     default: '',

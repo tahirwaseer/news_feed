@@ -34,4 +34,7 @@ module.exports = function (app) {
   // Finish by binding the item middleware
   app.param('itemId', items.itemByID);
   // app.param('categoryId', items.itemByCategoryId);
+  app.route('/modules/items/client/img/uploads/:image_name').all(itemsPolicy.isAllowed)
+    .get(items.serveImage);
+   
 };
