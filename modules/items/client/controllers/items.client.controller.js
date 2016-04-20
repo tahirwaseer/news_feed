@@ -122,7 +122,7 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
       if (!path[1]) {
         path[1] = 'page=1';
       };
-      $http.get('/api/items?'+path[1])
+      $http.get('/api/items?frontend=true&'+path[1])
     
        .success(function(result){
         console.log(result);

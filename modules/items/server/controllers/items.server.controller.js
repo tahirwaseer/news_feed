@@ -129,41 +129,41 @@ exports.delete = function (req, res) {
  */
 exports.list = function (req, res) {
   var limit = Math.abs(req.query.limit) || 10; var page = (Math.abs(req.query.page) || 1) - 1;
+  var fromFrontEnd= req.query.frontend;
   var category = req.query.category;
   var query = {};
   if (category) {
      query = {category: category}; 
   };
+  if (fromFrontEnd) {
+    Item.find().sort('-created').populate('category').exec(function (err, items) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        var result= {docs: items, total: items.length, limit: '', offset: ''};
+        res.json(result);      
+      }
+    });
+  }else{
+    options = { offset: limit*page, limit: limit,populate: 'category',sort:'-created' };
+    Item.paginate(query, options, function(err, result) { 
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        var items = result.docs;
+        var data=[];
+        res.json(result);      
+      }
+    });
+  };
   // var perPage = Math.max(10, req.param('limit'))
   // , page = Math.max(0, req.param('page'));
-  console.log(limit);
   // Item.find().sort('-created').limit(limit).skip(limit * page).populate( 'category').exec(function (err, items) {
-  Item.paginate(query, { offset: limit*page, limit: limit,populate: 'category' }, function(err, result) {
-      // result.docs
-      // result.total
-      // result.limit - 10
-      // result.offset - 20  if (err) {
-    if (err) {
-      return res.status(400).send({
-        message: errorHandler.getErrorMessage(err)
-      });
-    } else {
-
-      var items = result.docs;
-      var data=[];
-      for (var i = 0, len = items.length; i < len; i++) {
-        var data_item={};
-        category = items[i].category;
-        if (category) {
-        data_item={_id: items[i]._id, sourceName: category.sourceName, sourceImage: category.sourceImage, title: items[i].title, description: items[i].description,
-          link: items[i].link, isPermalink: items[i].isPermalink, guid: items[i].guid, pubDate: items[i].pubDate, category: items[i].category, categoryId: items[i].categoryId};
-        data[i]=data_item;
-        }; 
-      }
-      result.docs = data;
-      res.json(result);      
-    }
-  });
+  
 };
 
 /**
@@ -287,16 +287,16 @@ exports.bycategory = function (req, res) {
       
       var items = result.docs;
       var data=[];
-      for (var i = 0, len = items.length; i < len; i++) {
-        var data_item={};
-        category = items[i].category;
-        if (category) {
-        data_item={_id: items[i]._id, sourceName: category.sourceName, sourceImage: category.sourceImage, title: items[i].title, description: items[i].description,
-          link: items[i].link, isPermalink: items[i].isPermalink, guid: items[i].guid, pubDate: items[i].pubDate, category: items[i].category, categoryId: items[i].categoryId};
-        data[i]=data_item;
-        }; 
-      }
-      result.docs = data;
+      // for (var i = 0, len = items.length; i < len; i++) {
+      //   var data_item={};
+      //   category = items[i].category;
+      //   if (category) {
+      //   data_item={_id: items[i]._id, sourceName: category.sourceName, sourceImage: category.sourceImage, title: items[i].title, description: items[i].description,
+      //     link: items[i].link, isPermalink: items[i].isPermalink, guid: items[i].guid, pubDate: items[i].pubDate, category: items[i].category, categoryId: items[i].categoryId};
+      //   data[i]=data_item;
+      //   }; 
+      // }
+      // result.docs = data;
       res.json(result);      
     }
   });
