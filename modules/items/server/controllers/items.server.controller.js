@@ -157,9 +157,11 @@ exports.list = function (req, res) {
           for (var i = 0, len = items.length; i < len; i++) {
             var data_item={};
             category = items[i].category;
-              data_item={_id: items[i]._id, sourceName: category.sourceName, sourceImage: category.sourceImage, title: items[i].title, description: items[i].description,
+            if (category) {
+            data_item={_id: items[i]._id, sourceName: category.sourceName, sourceImage: category.sourceImage, title: items[i].title, description: items[i].description,
               link: items[i].link, isPermalink: items[i].isPermalink, guid: items[i].guid, pubDate: items[i].pubDate, category: items[i].category, categoryId: items[i].categoryId};
             data[i]=data_item;
+            }; 
           }
           // data = JSON.stringify(data);
           // console.log(data);
