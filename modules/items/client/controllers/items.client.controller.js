@@ -119,7 +119,9 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
       // var result = Items.query();
       var path = $location.absUrl().split('?');
       console.log(path[1]);
-      
+      if (!path[1]) {
+        path[1] = 'page=1';
+      };
       $http.get('/api/items?'+path[1])
     
        .success(function(result){

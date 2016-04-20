@@ -7,7 +7,7 @@ angular.module('core').controller('HomeController', ['$scope','$http', 'Authenti
     var url = '/api/items';
 
    $http.get(url).success( function(response) {
-      $scope.items = response; 
+      $scope.items = response.docs; 
    });
    
   }

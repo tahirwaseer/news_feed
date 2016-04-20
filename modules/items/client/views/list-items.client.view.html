@@ -59,7 +59,7 @@
   </div>
   <nav>
     <ul class="pagination" ng-repeat="count in range(1,pageCount)">
-      <li><a href="/items?page={{count-1}}" class="{{count-1==currentPage ? 'active' : ''}}" ng-click="find(count - 1)">{{count}}</a></li>
+      <li><a href="/items?page={{count}}" class="{{count==currentPage ? 'active' : ''}}" ng-click="find(count)">{{count}}</a></li>
     </ul>
   </nav>
 </section>
