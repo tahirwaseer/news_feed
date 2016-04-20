@@ -20,4 +20,7 @@ module.exports = function (app) {
 
   // Finish by binding the article middleware
   app.param('categoryId', categories.categoryByID);
+
+  app.route('/modules/categories/client/img/uploads/:image_name').all(categoriesPolicy.isAllowed)
+    .get(categories.serveImage);
 };

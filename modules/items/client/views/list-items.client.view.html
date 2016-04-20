@@ -31,14 +31,14 @@
       <th>Actions</th>
     </thead>
     <tbody>
-      <tr data-dir-paginate="item in items| filter: {categoryId: getCategory()}|filter: title|itemsPerPage:15">
+      <tr ng-repeat="item in items|filter: title">
         <td width="70%">
        <!--<a class="" data-ui-sref="items.view({itemId: item._id})" >{{item.title}}</a>-->
        <a href="/items/{{item._id}}"> {{item.title}}</a>
        <!-- <a href="{{item.v}}" >{{item.title}}</a> -->
           
         </td>
-        <td>{{item.category}}</td>
+        <td>{{item.category.title}}</td>
         <td>{{formatDate(item.pubDate) | date:'d/MM/yyyy'}}</td>
         <td>
 
@@ -57,9 +57,9 @@
   <div class="alert alert-warning text-center" data-ng-if="items.$resolved && !items.length">
     No items yet, why don't you <a data-ui-sref="items.create">create one</a>?
   </div>
-  <dir-pagination-controls
-        max-size="15"
-        direction-links="true"
-        boundary-links="true" >
-    </dir-pagination-controls>
+  <nav>
+    <ul class="pagination" ng-repeat="count in range(1,pageCount)">
+      <li><a href="/items?page={{count-1}}" class="{{count-1==currentPage ? 'active' : ''}}" ng-click="find(count - 1)">{{count}}</a></li>
+    </ul>
+  </nav>
 </section>

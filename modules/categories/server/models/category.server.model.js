@@ -25,8 +25,18 @@ var CategorySchema = new Schema({
     type: String,
     default: '',
     trim: true
-  }
-  
+  },
+  sourceImage: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  sourceName: {
+    type: String,
+    default: '',
+    trim: true
+  },
+  items: [{type: Schema.ObjectId,ref: 'Item'}]
   // user: {
   //   type: Schema.ObjectId,
   //   ref: 'User'

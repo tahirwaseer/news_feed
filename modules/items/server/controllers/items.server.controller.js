@@ -5,8 +5,10 @@ var arr = {};
  */
 var path = require('path'),
   fs = require('fs'),
+  url = require('url'),
   mongoose = require('mongoose'),
   Item = mongoose.model('Item'),
+  Category = mongoose.model('Category'),
   Log = mongoose.model('Log'),
   User = mongoose.model('User'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
@@ -18,7 +20,7 @@ var https = require('https');
 exports.create = function (req, res) {
   var item = new Item(req.body);
   item.user = req.user;
-
+  console.log('create itme');
   item.save(function (err) {
     if (err) {
       return res.status(400).send({
@@ -54,6 +56,10 @@ exports.update = function (req, res) {
   var item = req.item;
   console.log(Object.keys(req.files).length > 0);
   console.log(req.files.image);
+  var baseUrl = url.format({
+                  protocol: req.protocol,
+                  host: req.get('host'),
+                });
   // console.log(req.files.image.name);
   // console.log(req);
   if (Object.keys(req.files).length > 0) {
@@ -66,7 +72,7 @@ exports.update = function (req, res) {
           message: 'Error occurred while uploading item picture'
         });
       } else {
-        item.image = dir + req.files.image.name;
+        item.image = baseUrl+'/modules/items/client/img/uploads/'+ req.files.image.name;
         item.title = req.body.title;
         item.description = req.body.description;
         item.link = req.body.link;
@@ -122,13 +128,47 @@ exports.delete = function (req, res) {
  * List of Items
  */
 exports.list = function (req, res) {
-  Item.find().sort('-created').populate( 'displayName').exec(function (err, items) {
+  var limit = Math.abs(req.query.limit) || 10; var page = (Math.abs(req.query.page) || 1) - 1;
+  // var perPage = Math.max(10, req.param('limit'))
+  // , page = Math.max(0, req.param('page'));
+  console.log(limit);
+  count = 0;
+  // Item.find().sort('-created').limit(limit).skip(limit * page).populate( 'category').exec(function (err, items) {
+  Item.paginate({}, { offset: limit*page, limit: limit }, function(err, result) {
+      // result.docs
+      // result.total
+      // result.limit - 10
+      // result.offset - 20  if (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(items);
+   
+        
+          // console.log(Item.count());
+          Item.count({}, function(err, c) {
+            count = c;
+               console.log('Count is ' + c);
+          });
+          var items = result.docs;
+          console.log(count);
+          var data=[];
+          for (var i = 0, len = items.length; i < len; i++) {
+            var data_item={};
+            category = items[i].category;
+              data_item={_id: items[i]._id, sourceName: category.sourceName, sourceImage: category.sourceImage, title: items[i].title, description: items[i].description,
+              link: items[i].link, isPermalink: items[i].isPermalink, guid: items[i].guid, pubDate: items[i].pubDate, category: items[i].category, categoryId: items[i].categoryId};
+            data[i]=data_item;
+          }
+          // data = JSON.stringify(data);
+          // console.log(data);
+          // data = JSON.parse(data);
+          result.docs = data;
+          res.json(result);
+        // });  
+      
+      
     }
   });
 };
@@ -330,8 +370,9 @@ exports.import = function (req, res) {
       for (var i = items.length - 1; i >= 0; i--) {
         var item = new Item({
           title: items[i].title[0],
-          category: import_data.rss.channel[0].description[0],
-          categoryId: category_id,
+          category: category_id,
+          // category: import_data.rss.channel[0].description[0],
+          // categoryId: category_id,
           description: items[i].description[0],
           link: items[i].link,
           isPermalink: items[i].guid.$,

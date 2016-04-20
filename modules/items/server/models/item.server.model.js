@@ -5,7 +5,7 @@
  */
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
-
+var mongoosePaginate = require('mongoose-paginate');
 /**
  * Article Schema
  */
@@ -21,16 +21,12 @@ var ItemSchema = new Schema({
     unique: true,
     required: 'Title cannot be blank'
   },
-  category: {
-    type: String,
-    default: '',
-    trim: true,
-  },
-  categoryId: {
-    type: String,
-    default: '',
-    trim: true,
-  },
+  category: {type: Schema.ObjectId,ref: 'Category'},
+  // categoryId: {
+  //   type: String,
+  //   default: '',
+  //   trim: true,
+  // },
   description: {
     type: String,
     default: '',
@@ -60,11 +56,12 @@ var ItemSchema = new Schema({
     type: String,
     default: '',
     trim: true
-  },
+  }
+  // categoryId: {type: Schema.ObjectId,ref: 'Category'}
   // user: {
   //   type: Schema.ObjectId,
   //   ref: 'User'
   // }
 });
-
+ItemSchema.plugin(mongoosePaginate);
 mongoose.model('Item', ItemSchema);

@@ -56,7 +56,6 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
         pubDate: new Date()
 
       });
-
       // Redirect after save
       item.$save(function (response) {
         $location.path('items');
@@ -65,6 +64,7 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
         $scope.title = '';
         $scope.content = '';
       }, function (errorResponse) {
+      console.log('reororo');
         $scope.error = errorResponse.data.message;
       });
     };
@@ -116,10 +116,42 @@ angular.module('items').controller('ItemsController', ['$scope', '$stateParams',
     };
     // Find a list of Items
     $scope.find = function () {
-      $scope.items = Items.query();
-    };
-
+      // var result = Items.query();
+      var path = $location.absUrl().split('?');
+      console.log(path[1]);
+      
+      $http.get('/api/items?'+path[1])
     
+       .success(function(result){
+        console.log(result);
+        var totalItems = result.total;
+        var pageLimit = result.limit;
+        $scope.pageCount = totalItems/pageLimit;
+        $scope.items = result.docs;
+       })
+    };
+    $scope.loadPage= function(pageNumber){
+      $scope.pageNumber = pageNumber;
+      $scope.currentPage = pageNumber;
+      $scope.find();
+      // $http.get('/api/items?page='+pageNumber)
+    
+      //  .success(function(result){
+      //   console.log(result);
+      //   var totalItems = result.total;
+      //   var pageLimit = result.limit;
+      //   $scope.pageCount = totalItems/pageLimit;
+      //   $scope.items = result.docs;
+      // })
+    }
+    $scope.range = function(min, max, step) {
+        step = step || 1;
+        var input = [];
+        for (var i = min; i <= max; i += step) {
+            input.push(i);
+        }
+        return input;
+    };
 
     // Find existing Article
     $scope.findOne = function () {
