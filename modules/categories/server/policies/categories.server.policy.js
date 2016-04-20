@@ -21,6 +21,9 @@ exports.invokeRolesPolicies = function () {
       resources: '/api/categories/:categoryId',
       permissions: '*'
     },{
+      resources: '/api/categories/:categoryId/items',
+      permissions: ['get']
+    },{
       resources: '/modules/categories/client/img/uploads/:image_name',
       permissions: ['get']
     }]
@@ -31,6 +34,9 @@ exports.invokeRolesPolicies = function () {
       permissions: ['get', 'post']
     }, {
       resources: '/api/categories/:categoryId',
+      permissions: ['get']
+    }, {
+      resources: '/api/categories/:categoryId/items',
       permissions: ['get']
     },{
       resources: '/modules/categories/client/img/uploads/:image_name',
@@ -50,6 +56,9 @@ exports.invokeRolesPolicies = function () {
       permissions: ['get']
     },{
       resources: '/categories',
+      permissions: ['get']
+    },{
+      resources: '/api/categories/:categoryId/items',
       permissions: ['get']
     },{
       resources: '/modules/categories/client/img/uploads/:image_name',

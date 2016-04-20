@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
+var mongoosePaginate = require('mongoose-paginate');
 
 /**
  * Article Schema
@@ -36,11 +37,12 @@ var CategorySchema = new Schema({
     default: '',
     trim: true
   },
-  items: [{type: Schema.ObjectId,ref: 'Item'}]
+  // items: [{type: Schema.Types.ObjectId,ref: 'Item'}]
   // user: {
   //   type: Schema.ObjectId,
   //   ref: 'User'
   // }
 });
+CategorySchema.plugin(mongoosePaginate);
 
 mongoose.model('Category', CategorySchema);

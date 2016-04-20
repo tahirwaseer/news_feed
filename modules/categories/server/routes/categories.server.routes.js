@@ -17,7 +17,10 @@ module.exports = function (app) {
     .get(categories.read)
     .put(categories.update)
     .delete(categories.delete);
-
+  app.route('/api/categories/:categoryId/items').all(categoriesPolicy.isAllowed)
+    .get(categories.items);
+    
+  
   // Finish by binding the article middleware
   app.param('categoryId', categories.categoryByID);
 

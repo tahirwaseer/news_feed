@@ -129,12 +129,16 @@ exports.delete = function (req, res) {
  */
 exports.list = function (req, res) {
   var limit = Math.abs(req.query.limit) || 10; var page = (Math.abs(req.query.page) || 1) - 1;
+  var category = req.query.category;
+  var query = {};
+  if (category) {
+     query = {category: category}; 
+  };
   // var perPage = Math.max(10, req.param('limit'))
   // , page = Math.max(0, req.param('page'));
   console.log(limit);
-  count = 0;
   // Item.find().sort('-created').limit(limit).skip(limit * page).populate( 'category').exec(function (err, items) {
-  Item.paginate({}, { offset: limit*page, limit: limit }, function(err, result) {
+  Item.paginate(query, { offset: limit*page, limit: limit,populate: 'category' }, function(err, result) {
       // result.docs
       // result.total
       // result.limit - 10
@@ -144,33 +148,20 @@ exports.list = function (req, res) {
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-   
-        
-          // console.log(Item.count());
-          Item.count({}, function(err, c) {
-            count = c;
-               console.log('Count is ' + c);
-          });
-          var items = result.docs;
-          console.log(count);
-          var data=[];
-          for (var i = 0, len = items.length; i < len; i++) {
-            var data_item={};
-            category = items[i].category;
-            if (category) {
-            data_item={_id: items[i]._id, sourceName: category.sourceName, sourceImage: category.sourceImage, title: items[i].title, description: items[i].description,
-              link: items[i].link, isPermalink: items[i].isPermalink, guid: items[i].guid, pubDate: items[i].pubDate, category: items[i].category, categoryId: items[i].categoryId};
-            data[i]=data_item;
-            }; 
-          }
-          // data = JSON.stringify(data);
-          // console.log(data);
-          // data = JSON.parse(data);
-          result.docs = data;
-          res.json(result);
-        // });  
-      
-      
+
+      var items = result.docs;
+      var data=[];
+      for (var i = 0, len = items.length; i < len; i++) {
+        var data_item={};
+        category = items[i].category;
+        if (category) {
+        data_item={_id: items[i]._id, sourceName: category.sourceName, sourceImage: category.sourceImage, title: items[i].title, description: items[i].description,
+          link: items[i].link, isPermalink: items[i].isPermalink, guid: items[i].guid, pubDate: items[i].pubDate, category: items[i].category, categoryId: items[i].categoryId};
+        data[i]=data_item;
+        }; 
+      }
+      result.docs = data;
+      res.json(result);      
     }
   });
 };
@@ -200,15 +191,6 @@ exports.itemByID = function (req, res, next, id) {
 
 };
 
-
-
-
-
-
-
-
-
-
 // Item tracking code
 
 exports.addlog = function (req, res) {
@@ -235,16 +217,6 @@ exports.addlog = function (req, res) {
 //  Log show function
 
 exports.logs = function (req, res) {
-
-  //  var count=0;
-
-    //global.data=[];
-
-    //   module.exports=arr=[];
- 
-     //module.exports=arr[count] = {};
-
-
 
   console.log(req.query.itemId);
   Log.find({'itemId': req.query.itemId}).sort('-time').populate( 'itemId').exec(function (err, logs) {
@@ -300,15 +272,43 @@ exports.bycategory = function (req, res) {
   // console.log(req.params.categoryId);
   // console.log(req);
   // alert(req);
-  Item.find({categoryId: req.params.categoryId}).sort('-created').populate( 'displayName').exec(function (err, items) {
+  var limit = Math.abs(req.query.limit) || 10; var page = (Math.abs(req.query.page) || 1) - 1;
+  Item.paginate({category: req.params.categoryId}, { offset: limit*page, limit: limit,populate: 'category' }, function(err, result) {
+      // result.docs
+      // result.total
+      // result.limit - 10
+      // result.offset - 20  if (err) {
     if (err) {
       return res.status(400).send({
         message: errorHandler.getErrorMessage(err)
       });
     } else {
-      res.json(items);
+
+      
+      var items = result.docs;
+      var data=[];
+      for (var i = 0, len = items.length; i < len; i++) {
+        var data_item={};
+        category = items[i].category;
+        if (category) {
+        data_item={_id: items[i]._id, sourceName: category.sourceName, sourceImage: category.sourceImage, title: items[i].title, description: items[i].description,
+          link: items[i].link, isPermalink: items[i].isPermalink, guid: items[i].guid, pubDate: items[i].pubDate, category: items[i].category, categoryId: items[i].categoryId};
+        data[i]=data_item;
+        }; 
+      }
+      result.docs = data;
+      res.json(result);      
     }
   });
+  // Item.find({category: req.params.categoryId}).sort('-created').populate( 'displayName').exec(function (err, items) {
+  //   if (err) {
+  //     return res.status(400).send({
+  //       message: errorHandler.getErrorMessage(err)
+  //     });
+  //   } else {
+  //     res.json(items);
+  //   }
+  // });
 };
 
 // exports.itemByCategory = function (req, res, next, id) {
@@ -359,36 +359,40 @@ function xmlToJson(url, callback) {
 exports.import = function (req, res) {
   var url = req.query.url;
   var category_id = req.query.category_id;
-  xmlToJson(url, function(err, data) {
-    if (err) {
-      // Handle this however you like
-      return console.err(err);
-    }
-    var json_string = JSON.stringify(data, null, 2);
-    var import_data = JSON.parse(json_string);
-    var items = import_data.rss.channel[0].item;
-    var arr = [];
-    if (items){
-      for (var i = items.length - 1; i >= 0; i--) {
-        var item = new Item({
-          title: items[i].title[0],
-          category: category_id,
-          // category: import_data.rss.channel[0].description[0],
-          // categoryId: category_id,
-          description: items[i].description[0],
-          link: items[i].link,
-          isPermalink: items[i].guid.$,
-          guid: items[i].guid[0]._,
-          pubDate: items[i].pubDate[0] 
-        });
-        item.save();
+  
+    
+    xmlToJson(url, function(err, data) {
+      if (err) {
+        // Handle this however you like
+        return console.err(err);
       }
-    }    
-    // Do whatever you want with the data here
-    // Following just pretty-prints the object
-    // console.log(import_data.rss.channel[0].item[0].pubDate[0]);
-    res.json('Succesfully imported');
-  });
+      var json_string = JSON.stringify(data, null, 2);
+      var import_data = JSON.parse(json_string);
+      var items = import_data.rss.channel[0].item;
+      var arr = [];
+      if (items){
+        for (var i = items.length - 1; i >= 0; i--) {
+          var item = new Item({
+            title: items[i].title[0],
+            category: category_id,
+            // category: import_data.rss.channel[0].description[0],
+            // categoryId: category_id,
+            description: items[i].description[0],
+            link: items[i].link,
+            isPermalink: items[i].guid.$,
+            guid: items[i].guid[0]._,
+            pubDate: items[i].pubDate[0] 
+          });
+          item.save();
+          
+        }
+      }    
+      // Do whatever you want with the data here
+      // Following just pretty-prints the object
+      // console.log(import_data.rss.channel[0].item[0].pubDate[0]);
+      res.json('Succesfully imported');
+    });
+
   // item.title = req.body.title;
   // item.content = req.body.content;
 

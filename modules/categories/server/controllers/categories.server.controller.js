@@ -8,6 +8,7 @@ var path = require('path'),
   url = require('url'),
   mongoose = require('mongoose'),
   Category = mongoose.model('Category'),
+  Item = mongoose.model('Item'),
   errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller'));
 
 /**
@@ -203,6 +204,36 @@ exports.list = function (req, res) {
   });
 };
 
+exports.items = function(req,res){
+  var limit = Math.abs(req.query.limit) || 10; var page = (Math.abs(req.query.page) || 1) - 1;
+  Item.paginate({category: req.category._id}, { offset: limit*page, limit: limit,populate: 'category' }, function(err, result) {
+      // result.docs
+      // result.total
+      // result.limit - 10
+      // result.offset - 20  if (err) {
+    if (err) {
+      return res.status(400).send({
+        message: errorHandler.getErrorMessage(err)
+      });
+    } else {
+
+      
+      var items = result.docs;
+      var data=[];
+      var category = req.category;
+      for (var i = 0, len = items.length; i < len; i++) {
+        var data_item={};
+        if (category) {
+        data_item={_id: items[i]._id, sourceName: category.sourceName, sourceImage: category.sourceImage, title: items[i].title, description: items[i].description,
+          link: items[i].link, isPermalink: items[i].isPermalink, guid: items[i].guid, pubDate: items[i].pubDate, category: items[i].category, categoryId: items[i].categoryId};
+        data[i]=data_item;
+        }; 
+      }
+      result.docs = data;
+      res.json(result);      
+    }
+  });
+};
 /**
  * Article middleware
  */
